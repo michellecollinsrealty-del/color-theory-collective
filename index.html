@@ -3,98 +3,184 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Color Theory Collective • Memberships</title>
+  <title>Color Theory Collective • Mixing Lab</title>
+
+  <!-- site stylesheet + app js -->
   <link rel="stylesheet" href="style.css" />
+  <script defer src="app.js"></script>
+
+  <!-- Minimal helpers so buttons/cards look good even if style.css is simple -->
+  <style>
+    :root { --bg:#0b0e14; --panel:#141a23; --ink:#e8eefc; --muted:#a9b4c7; --brand:#7cf2d1; --accent:#a78bfa; }
+    body{background:var(--bg);color:var(--ink);font-family:system-ui,-apple-system,Segoe UI,Roboto,Inter,Arial,sans-serif;line-height:1.5;margin:0}
+    a{color:var(--brand);text-decoration:none}
+    header{position:sticky;top:0;background:rgba(11,14,20,.7);backdrop-filter:saturate(140%) blur(8px);border-bottom:1px solid #202838;z-index:50}
+    .container{max-width:1100px;margin:auto;padding:1rem 1.25rem}
+    .brand{font-weight:700;letter-spacing:.4px}
+    .nav{display:flex;gap:1rem;flex-wrap:wrap}
+    .nav a{color:var(--ink);opacity:.85}
+    .hero{padding:4rem 1.25rem 2rem;background:linear-gradient(180deg,rgba(124,242,209,.08),transparent)}
+    .hero h1{margin:0 0 .5rem;font-size:clamp(1.8rem,4.5vw,3rem)}
+    .hero p{color:var(--muted);max-width:60ch}
+    .cta-row{display:flex;gap:.75rem;margin-top:1.25rem;flex-wrap:wrap}
+    .btn{display:inline-block;padding:.8rem 1rem;border-radius:.6rem;border:1px solid #2a3548;background:#192133;color:var(--ink);font-weight:600}
+    .btn.primary{background:var(--brand);color:#0b0e14;border-color:transparent}
+    .btn.ghost{background:transparent}
+    .section{padding:3rem 1.25rem}
+    .section h2{margin:0 0 1rem}
+    /* Pricing */
+    .pricing-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:1rem}
+    .card{background:var(--panel);border:1px solid #222b3c;border-radius:1rem;padding:1.25rem}
+    .plan{font-weight:700}
+    .price{font-size:1.75rem;margin:.25rem 0 .75rem}
+    .muted{color:var(--muted)}
+    .stack{display:grid;gap:.5rem}
+    footer{padding:2rem 1.25rem;border-top:1px solid #202838;color:var(--muted)}
+    .badge{display:inline-block;background:rgba(167,139,250,.2);color:var(--ink);padding:.25rem .5rem;border-radius:.4rem;font-size:.8rem}
+  </style>
+
+  <!-- Smooth-scrolling (robust and tiny) -->
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      document.querySelectorAll('a[href^="#"]').forEach(a => {
+        a.addEventListener('click', e => {
+          const id = a.getAttribute('href');
+          if (id.length > 1) {
+            const t = document.querySelector(id);
+            if (t) {
+              e.preventDefault();
+              try { t.scrollIntoView({behavior:'smooth', block:'start'}); }
+              catch { t.scrollIntoView(true); }
+              if (history && history.replaceState) history.replaceState(null,'',id);
+            }
+          }
+        });
+      });
+    });
+  </script>
 </head>
 <body>
+
+  <!-- ===== Header / Nav ===== -->
   <header>
-    <div class="container">
+    <div class="container" style="display:flex;align-items:center;justify-content:space-between;gap:1rem;">
       <div class="brand">CTC • Color Theory Collective</div>
       <nav class="nav">
-        <a href="#passes">Pass</a>
-        <a href="#starter">Starter</a>
-        <a href="#pro">Pro</a>
-        <a href="#elite">Elite</a>
-        <a href="#support">Support</a>
+        <a href="#lab">Mixer</a>
+        <a href="#coach">Coach</a>
+        <a href="#ai">AI</a>
+        <a href="#pricing"><span class="badge">Join</span></a>
       </nav>
     </div>
   </header>
 
-  <main class="container">
-    <!-- One-Time -->
-    <section id="passes" class="card">
-      <h2>One-Time Pass</h2>
-      <p>Instant access drop-in.</p>
-      <a class="btn" target="_blank" rel="noopener"
-         href="https://square.link/u/DjiVVB2R?src=sheet">Buy One-Time Pass</a>
-    </section>
-
-    <!-- Starter -->
-    <section id="starter" class="card">
-      <h2>Starter</h2>
-      <div class="grid2">
-        <div>
-          <h3>Monthly</h3>
-          <a class="btn" target="_blank" rel="noopener"
-             href="https://square.link/u/aZ0Ee8HL?src=sheet">Subscribe Monthly</a>
-        </div>
-        <div>
-          <h3>Annual</h3>
-          <a class="btn" target="_blank" rel="noopener"
-             href="https://square.link/u/Grd9Q9ws?src=sheet">Subscribe Annual</a>
-        </div>
+  <!-- ===== Hero ===== -->
+  <section class="hero">
+    <div class="container">
+      <h1>Tech-forward color education for artists & creators</h1>
+      <p>Hands-on tools, guided exercises, and live coaching to master real color theory. Start with a one-time lab pass or grab a membership and join the Collective.</p>
+      <div class="cta-row">
+        <a class="btn primary" href="#pricing">See plans</a>
+        <a class="btn ghost" href="https://cash.app/$Color-Theory-Collective" target="_blank" rel="noopener">Cash App: $Color-Theory-Collective</a>
       </div>
-    </section>
+    </div>
+  </section>
 
-    <!-- Pro -->
-    <section id="pro" class="card">
-      <h2>Pro</h2>
-      <div class="grid2">
-        <div>
-          <h3>Monthly</h3>
-          <a class="btn" target="_blank" rel="noopener"
-             href="https://square.link/u/lkyaKNeZ?src=sheet">Subscribe Monthly</a>
-        </div>
-        <div>
-          <h3>Annual</h3>
-          <a class="btn" target="_blank" rel="noopener"
-             href="https://square.link/u/XBw09o7j?src=sheet">Subscribe Annual</a>
-        </div>
+  <!-- ===== Sections (keep your anchors) ===== -->
+  <section id="lab" class="section">
+    <div class="container">
+      <h2>Mixing Lab</h2>
+      <p class="muted">Interactive practice sessions to build intuition with hue, value, and chroma.</p>
+    </div>
+  </section>
+
+  <section id="coach" class="section">
+    <div class="container">
+      <h2>Coach</h2>
+      <p class="muted">Weekly prompts, critiques, and feedback to accelerate your eye.</p>
+    </div>
+  </section>
+
+  <section id="ai" class="section">
+    <div class="container">
+      <h2>AI Assist</h2>
+      <p class="muted">Use AI as a lab partner—generate exercises, track progress, and compare results.</p>
+    </div>
+  </section>
+
+  <!-- ===== Pricing / Join ===== -->
+  <section id="pricing" class="section" aria-label="Membership and pricing">
+    <div class="container">
+      <h2>Join the Collective</h2>
+      <p class="muted">Choose a pass or membership that fits your pace. You can also contribute via Cash App.</p>
+
+      <div class="pricing-grid" style="margin-top:1.25rem">
+
+        <!-- One-Time Pass -->
+        <article class="card">
+          <div class="plan">One-Time Lab Pass</div>
+          <div class="price">$ — single session</div>
+          <p class="muted">Drop in, try the lab, and keep your progress.</p>
+          <div class="stack">
+            <a class="btn primary" target="_blank" rel="noopener" href="https://square.link/u/DjiVVB2R?src=sheet">Get Pass</a>
+            <a class="btn" target="_blank" rel="noopener" href="https://cash.app/$Color-Theory-Collective">Cash App alternative</a>
+          </div>
+        </article>
+
+        <!-- Starter -->
+        <article class="card">
+          <div class="plan">Starter</div>
+          <div class="price">Monthly / Annual</div>
+          <ul class="muted" style="padding-left:1rem; margin:.5rem 0 1rem">
+            <li>Core Lab access</li>
+            <li>Weekly practice sets</li>
+            <li>Community chat</li>
+          </ul>
+          <div class="stack">
+            <a class="btn primary" target="_blank" rel="noopener" href="https://square.link/u/aZ0Ee8HL?src=sheet">Start Monthly</a>
+            <a class="btn" target="_blank" rel="noopener" href="https://square.link/u/Grd9Q9ws?src=sheet">Start Annual</a>
+          </div>
+        </article>
+
+        <!-- Pro -->
+        <article class="card">
+          <div class="plan">Pro</div>
+          <div class="price">Monthly / Annual</div>
+          <ul class="muted" style="padding-left:1rem; margin:.5rem 0 1rem">
+            <li>Everything in Starter</li>
+            <li>Critique sessions</li>
+            <li>Project feedback</li>
+          </ul>
+          <div class="stack">
+            <a class="btn primary" target="_blank" rel="noopener" href="https://square.link/u/lkyaKNeZ?src=sheet">Pro Monthly</a>
+            <a class="btn" target="_blank" rel="noopener" href="https://square.link/u/XBw09o7j?src=sheet">Pro Annual</a>
+          </div>
+        </article>
+
+        <!-- Elite -->
+        <article class="card">
+          <div class="plan">Elite</div>
+          <div class="price">Monthly / Annual</div>
+          <ul class="muted" style="padding-left:1rem; margin:.5rem 0 1rem">
+            <li>Everything in Pro</li>
+            <li>1:1 coaching</li>
+            <li>Priority reviews</li>
+          </ul>
+          <div class="stack">
+            <a class="btn primary" target="_blank" rel="noopener" href="https://square.link/u/U2cdtt7u?src=sheet">Elite Monthly</a>
+            <a class="btn" target="_blank" rel="noopener" href="https://square.link/u/d4DoJI3Q?src=sheet">Elite Annual</a>
+          </div>
+        </article>
+
       </div>
-    </section>
-
-    <!-- Elite -->
-    <section id="elite" class="card">
-      <h2>Elite</h2>
-      <div class="grid2">
-        <div>
-          <h3>Monthly</h3>
-          <a class="btn" target="_blank" rel="noopener"
-             href="https://square.link/u/U2cdtt7u?src=sheet">Subscribe Monthly</a>
-        </div>
-        <div>
-          <h3>Annual</h3>
-          <a class="btn" target="_blank" rel="noopener"
-             href="https://square.link/u/d4DoJI3Q?src=sheet">Subscribe Annual</a>
-        </div>
-      </div>
-    </section>
-
-    <!-- Cash App support -->
-    <section id="support" class="card">
-      <h2>Support via Cash App</h2>
-      <p>Cash App tag shown as <strong>$Color-Theory-Collective</strong> (links to your existing handle).</p>
-      <a class="btn outline" target="_blank" rel="noopener"
-         href="https://cash.app/$Zionsanctuary">$Color-Theory-Collective on Cash App</a>
-    </section>
-  </main>
+    </div>
+  </section>
 
   <footer>
-    <div class="container small">
-      © <span id="y"></span> Color Theory Collective • All rights reserved.
+    <div class="container">
+      © <span id="y"></span> Color Theory Collective • Cash App: <a target="_blank" rel="noopener" href="https://cash.app/$Color-Theory-Collective">$Color-Theory-Collective</a>
     </div>
+    <script>document.getElementById('y').textContent = new Date().getFullYear()</script>
   </footer>
-
-  <script src="app.js"></script>
 </body>
 </html>
