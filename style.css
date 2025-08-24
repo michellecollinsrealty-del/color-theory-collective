@@ -1,0 +1,43 @@
+
+/* style.css - Locked theme for Color Theory Collective */
+body {
+  margin: 0;
+  font-family: 'Helvetica Neue', Arial, sans-serif;
+  background-color: #ffffff;
+  color: #333;
+}
+
+header, nav, footer {
+  background: #4B0082; /* Indigo purple */
+  color: white;
+  padding: 1rem;
+  text-align: center;
+}
+
+a {
+  color: #4B0082;
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+button, .btn {
+  background: #4B0082;
+  color: #fff;
+  border: none;
+  padding: 0.7rem 1.2rem;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+button:hover, .btn:hover {
+  background: #6A0DAD; /* lighter purple */
+}
+
+.section {
+  padding: 3rem 1rem;
+  max-width: 1200px;
+  margin: auto;
+}
