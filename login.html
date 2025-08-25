@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Sign in — Color Theory Collective</title>
+  <link rel="stylesheet" href="/style.css" />
+  <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
+</head>
+<body>
+  <section class="section">
+    <div class="container">
+      <h1>Sign in</h1>
+      <p class="muted">Use the widget to log in or create an account. You’ll be returned to Downloads.</p>
+      <div class="card" style="padding:1rem">
+        <div data-netlify-identity-button>Login</div>
+      </div>
+      <div class="stack" style="margin-top:1rem">
+        <a class="btn" href="/downloads/">Go to Downloads</a>
+        <a class="btn" href="/">Back home</a>
+      </div>
+    </div>
+  </section>
+  <script>
+    if (window.netlifyIdentity) {
+      window.netlifyIdentity.on('login', () => { window.location.href = '/downloads/'; });
+      window.netlifyIdentity.on('signup', () => { window.location.href = '/downloads/'; });
+    }
+  </script>
+</body>
+</html>

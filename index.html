@@ -6,10 +6,8 @@
   <title>Color Theory Collective</title>
   <meta name="description" content="Tech-forward color education — Mixing Lab, memberships, and creative training." />
   <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><circle cx=%2250%22 cy=%2250%22 r=%2250%22 fill=%22%2300d1b2%22/></svg>">
-  <link rel="stylesheet" href="style.css" />
-  <script defer src="app.js"></script>
-
-  <!-- Open Graph -->
+  <link rel="stylesheet" href="/style.css" />
+  <script defer src="/app.js"></script>
   <meta property="og:title" content="Color Theory Collective" />
   <meta property="og:description" content="Real color theory help—built by & for creators." />
   <meta property="og:type" content="website" />
@@ -17,10 +15,8 @@
 </head>
 <body>
 
-  <!-- Sticky site-wide CTA -->
   <a class="sticky-cta" href="#pricing">Join the Collective</a>
 
-  <!-- Header / Nav -->
   <header class="site-header">
     <div class="container row">
       <a class="brand" href="#top">Color Theory Collective</a>
@@ -29,13 +25,13 @@
         <a href="#sessions">Book</a>
         <a href="#gallery">Gallery</a>
         <a href="#pricing">Join</a>
+        <a href="/downloads/">Downloads</a>
         <a href="#faq">FAQ</a>
         <a href="#contact">Contact</a>
       </nav>
     </div>
   </header>
 
-  <!-- Hero -->
   <section id="top" class="section hero">
     <div class="container">
       <h1>Real color theory help—built by &amp; for creators</h1>
@@ -47,13 +43,11 @@
     </div>
   </section>
 
-  <!-- Lab -->
   <section id="lab" class="section">
     <div class="container">
       <h2>Mixing Lab</h2>
       <p class="muted">Hands-on experiments, guided sets, and critique to level up your color skills.</p>
 
-      <!-- ⬇⬇ NEW: Mini Mixer widget (no backend) -->
       <div class="mixer card">
         <div class="mixer-row">
           <label>Color A
@@ -80,7 +74,6 @@
           <span id="copyHint" class="muted tiny" role="status" aria-live="polite"></span>
         </div>
       </div>
-      <!-- ⬆⬆ NEW widget ends -->
 
       <div class="cards three" style="margin-top:1rem">
         <article class="card">
@@ -99,7 +92,6 @@
     </div>
   </section>
 
-  <!-- Sessions / Booking -->
   <section id="sessions" class="section alt">
     <div class="container">
       <h2>Book a Session</h2>
@@ -123,7 +115,6 @@
     </div>
   </section>
 
-  <!-- Gallery -->
   <section id="gallery" class="section">
     <div class="container">
       <h2>Recent work</h2>
@@ -138,7 +129,6 @@
     </div>
   </section>
 
-  <!-- Testimonials -->
   <section class="section">
     <div class="container">
       <h2>What creators say</h2>
@@ -149,14 +139,12 @@
     </div>
   </section>
 
-  <!-- Pricing / Join (Square links preserved) -->
   <section id="pricing" class="section" aria-label="Membership">
     <div class="container">
       <h2>Join the Collective</h2>
       <p class="muted">Choose a pass or membership that fits you best.</p>
 
       <div class="pricing-grid">
-        <!-- One-Time -->
         <article class="card">
           <div class="plan">One-Time Lab Pass</div>
           <div class="price">$ — single session</div>
@@ -166,7 +154,6 @@
           </div>
         </article>
 
-        <!-- Starter -->
         <article class="card">
           <div class="plan">Starter</div>
           <div class="price">Monthly / Annual</div>
@@ -181,7 +168,6 @@
           </div>
         </article>
 
-        <!-- Pro -->
         <article class="card">
           <div class="plan">Pro</div>
           <div class="price">Monthly / Annual</div>
@@ -196,7 +182,6 @@
           </div>
         </article>
 
-        <!-- Elite -->
         <article class="card">
           <div class="plan">Elite</div>
           <div class="price">Monthly / Annual</div>
@@ -216,7 +201,6 @@
     </div>
   </section>
 
-  <!-- FAQ -->
   <section id="faq" class="section alt">
     <div class="container">
       <h2>FAQ</h2>
@@ -226,11 +210,16 @@
     </div>
   </section>
 
-  <!-- Contact (Netlify Form → /success) -->
   <section id="contact" class="section">
     <div class="container">
       <h2>Contact</h2>
-      <form name="contact" method="POST" data-netlify="true" action="/success" class="form">
+      <form name="subscribe" method="POST" data-netlify="true" class="form">
+        <input type="hidden" name="form-name" value="subscribe" />
+        <label>Email for newsletter <input type="email" name="email" required placeholder="you@example.com"></label>
+        <button class="btn" type="submit">Subscribe</button>
+      </form>
+
+      <form name="contact" method="POST" data-netlify="true" action="/success" class="form" style="margin-top:1rem">
         <input type="hidden" name="form-name" value="contact">
         <label> Name <input name="name" required></label>
         <label> Email <input type="email" name="email" required></label>
@@ -241,7 +230,6 @@
     </div>
   </section>
 
-  <!-- Footer -->
   <footer class="footer">
     <div class="container">
       <p class="muted tiny">© <span id="year"></span> Color Theory Collective</p>
