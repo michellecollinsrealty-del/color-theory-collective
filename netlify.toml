@@ -1,17 +1,3 @@
 [build]
-  publish = "/"
-
-# Identity/role-based example; requires roles set in Netlify Identity (optional later)
-[[redirects]]
-  from = "/downloads/*"
-  to = "/downloads/index.html"
-  status = 200
-  force = true
-
-[[headers]]
-  for = "/*"
-  [headers.values]
-    X-Frame-Options = "SAMEORIGIN"
-    X-Content-Type-Options = "nosniff"
-    Referrer-Policy = "strict-origin-when-cross-origin"
-    Permissions-Policy = "camera=(), microphone=(), geolocation=()"
+  publish = "."
+  functions = "netlify/functions"
