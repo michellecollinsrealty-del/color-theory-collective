@@ -52,7 +52,37 @@
     <div class="container">
       <h2>Mixing Lab</h2>
       <p class="muted">Hands-on experiments, guided sets, and critique to level up your color skills.</p>
-      <div class="cards three">
+
+      <!-- ⬇⬇ NEW: Mini Mixer widget (no backend) -->
+      <div class="mixer card">
+        <div class="mixer-row">
+          <label>Color A
+            <input id="mixA" type="color" value="#A855F7" />
+          </label>
+          <label>Color B
+            <input id="mixB" type="color" value="#10B981" />
+          </label>
+          <label class="ratio">Blend
+            <input id="mixRatio" type="range" min="0" max="100" value="50" />
+            <span class="muted tiny"><span id="mixPctA">50</span>% A / <span id="mixPctB">50</span>% B</span>
+          </label>
+        </div>
+
+        <div class="mixer-swatches">
+          <div class="chip" id="chipA" title="Color A"></div>
+          <div class="chip big" id="chipMix" title="Mixed — tap to copy hex"></div>
+          <div class="chip" id="chipB" title="Color B"></div>
+        </div>
+
+        <div class="mixer-output">
+          <code id="mixHex">#7E88C9</code>
+          <button class="btn small" id="copyHexBtn" type="button">Copy hex</button>
+          <span id="copyHint" class="muted tiny" role="status" aria-live="polite"></span>
+        </div>
+      </div>
+      <!-- ⬆⬆ NEW widget ends -->
+
+      <div class="cards three" style="margin-top:1rem">
         <article class="card">
           <h3>Guided Mixes</h3>
           <p>Create calibrated palettes with step-by-step sets.</p>
@@ -90,9 +120,6 @@
              href="https://calendly.com/your-handle/60min">Book 60 minutes</a>
         </article>
       </div>
-
-      <!-- If/when you want to embed Calendly directly, swap the two buttons above
-           for an inline embed like an <iframe>. The buttons are simpler & mobile-friendly. -->
     </div>
   </section>
 
@@ -122,7 +149,7 @@
     </div>
   </section>
 
-  <!-- Pricing / Join -->
+  <!-- Pricing / Join (Square links preserved) -->
   <section id="pricing" class="section" aria-label="Membership">
     <div class="container">
       <h2>Join the Collective</h2>
