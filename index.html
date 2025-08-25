@@ -4,21 +4,29 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Color Theory Collective</title>
-
-  <!-- styles and app -->
+  <meta name="description" content="Tech-forward color education — Mixing Lab, memberships, and creative training." />
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><circle cx=%2250%22 cy=%2250%22 r=%2250%22 fill=%22%2300d1b2%22/></svg>">
   <link rel="stylesheet" href="style.css" />
   <script defer src="app.js"></script>
 
-  <meta name="description" content="Tech-forward color education • Mixing Lab, memberships, and creative training." />
+  <!-- Open Graph -->
+  <meta property="og:title" content="Color Theory Collective" />
+  <meta property="og:description" content="Real color theory help—built by & for creators." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://color-theory-collective.org" />
 </head>
 <body>
 
-  <!-- ===== Site Header / Nav ===== -->
+  <!-- Sticky site-wide CTA -->
+  <a class="sticky-cta" href="#pricing">Join the Collective</a>
+
+  <!-- Header / Nav -->
   <header class="site-header">
-    <div class="container">
+    <div class="container row">
       <a class="brand" href="#top">Color Theory Collective</a>
       <nav class="nav">
         <a href="#lab">Lab</a>
+        <a href="#gallery">Gallery</a>
         <a href="#pricing">Join</a>
         <a href="#faq">FAQ</a>
         <a href="#contact">Contact</a>
@@ -26,42 +34,80 @@
     </div>
   </header>
 
-  <!-- ===== Hero / Intro (unchanged) ===== -->
+  <!-- Hero -->
   <section id="top" class="section hero">
     <div class="container">
-      <h1>Real color theory help—built by & for creators</h1>
+      <h1>Real color theory help—built by &amp; for creators</h1>
       <p class="muted">Mix smarter. Create faster. Get better results in less time.</p>
-      <a class="btn primary" href="#pricing">Join the Collective</a>
+      <div class="stack">
+        <a class="btn primary" href="#pricing">See memberships</a>
+        <a class="btn" href="#lab">Explore the Mixing Lab</a>
+      </div>
     </div>
   </section>
 
-  <!-- ===== Lab (unchanged placeholder) ===== -->
+  <!-- Lab -->
   <section id="lab" class="section">
     <div class="container">
       <h2>Mixing Lab</h2>
       <p class="muted">Hands-on experiments, guided sets, and critique to level up your color skills.</p>
-      <!-- your existing lab content stays in app.js/style.css -->
+      <div class="cards three">
+        <article class="card">
+          <h3>Guided Mixes</h3>
+          <p>Create calibrated palettes with step-by-step sets.</p>
+        </article>
+        <article class="card">
+          <h3>Critique Sessions</h3>
+          <p>Actionable feedback focused on process and results.</p>
+        </article>
+        <article class="card">
+          <h3>Creator Community</h3>
+          <p>Share progress, compare swatches, learn together.</p>
+        </article>
+      </div>
     </div>
   </section>
 
-  <!-- ===== Pricing / Join (UPDATED) ===== -->
+  <!-- Gallery -->
+  <section id="gallery" class="section alt">
+    <div class="container">
+      <h2>Recent work</h2>
+      <div class="gallery">
+        <figure><img alt="Palette 01" src="https://picsum.photos/seed/ctc1/600/400"></figure>
+        <figure><img alt="Palette 02" src="https://picsum.photos/seed/ctc2/600/400"></figure>
+        <figure><img alt="Palette 03" src="https://picsum.photos/seed/ctc3/600/400"></figure>
+        <figure><img alt="Palette 04" src="https://picsum.photos/seed/ctc4/600/400"></figure>
+        <figure><img alt="Palette 05" src="https://picsum.photos/seed/ctc5/600/400"></figure>
+        <figure><img alt="Palette 06" src="https://picsum.photos/seed/ctc6/600/400"></figure>
+      </div>
+    </div>
+  </section>
+
+  <!-- Testimonials -->
+  <section class="section">
+    <div class="container">
+      <h2>What creators say</h2>
+      <div class="quotes">
+        <blockquote>“The Mixing Lab shaved weeks off my project timeline.”<cite>— A. Rivera</cite></blockquote>
+        <blockquote>“Finally, color theory that actually helps me ship.”<cite>— J. Morgan</cite></blockquote>
+      </div>
+    </div>
+  </section>
+
+  <!-- Pricing / Join (with your Square links + Cash App name baked in) -->
   <section id="pricing" class="section" aria-label="Membership">
     <div class="container">
       <h2>Join the Collective</h2>
       <p class="muted">Choose a pass or membership that fits you best.</p>
 
-      <div class="pricing-grid" style="margin-top:1.25rem">
-
-        <!-- One-Time Pass -->
+      <div class="pricing-grid">
+        <!-- One-Time -->
         <article class="card">
           <div class="plan">One-Time Lab Pass</div>
           <div class="price">$ — single session</div>
           <p class="muted">Drop in, try the lab, and keep what you create.</p>
           <div class="stack">
-            <a class="btn primary" target="_blank" rel="noopener"
-               href="https://square.link/u/DjiVVB2R?src=sheet">
-              Buy Pass
-            </a>
+            <a class="btn primary" target="_blank" rel="noopener" href="https://square.link/u/DjiVVB2R?src=sheet">Buy Pass</a>
           </div>
         </article>
 
@@ -69,20 +115,14 @@
         <article class="card">
           <div class="plan">Starter</div>
           <div class="price">Monthly / Annual</div>
-          <ul class="muted" style="padding-left:1rem">
+          <ul class="muted bullets">
             <li>Core Lab access</li>
             <li>Weekly practice sets</li>
             <li>Community chat</li>
           </ul>
           <div class="stack">
-            <a class="btn primary" target="_blank" rel="noopener"
-               href="https://square.link/u/aZ0Ee8HL?src=sheet">
-              Starter — Monthly
-            </a>
-            <a class="btn" target="_blank" rel="noopener"
-               href="https://square.link/u/Grd9Q9ws?src=sheet">
-              Starter — Annual
-            </a>
+            <a class="btn primary" target="_blank" rel="noopener" href="https://square.link/u/aZ0Ee8HL?src=sheet">Starter — Monthly</a>
+            <a class="btn" target="_blank" rel="noopener" href="https://square.link/u/Grd9Q9ws?src=sheet">Starter — Annual</a>
           </div>
         </article>
 
@@ -90,20 +130,14 @@
         <article class="card">
           <div class="plan">Pro</div>
           <div class="price">Monthly / Annual</div>
-          <ul class="muted" style="padding-left:1rem">
+          <ul class="muted bullets">
             <li>Everything in Starter</li>
             <li>Critique sessions</li>
             <li>Project feedback</li>
           </ul>
           <div class="stack">
-            <a class="btn primary" target="_blank" rel="noopener"
-               href="https://square.link/u/lkyaKNeZ?src=sheet">
-              Pro — Monthly
-            </a>
-            <a class="btn" target="_blank" rel="noopener"
-               href="https://square.link/u/XBw09o7j?src=sheet">
-              Pro — Annual
-            </a>
+            <a class="btn primary" target="_blank" rel="noopener" href="https://square.link/u/lkyaKNeZ?src=sheet">Pro — Monthly</a>
+            <a class="btn" target="_blank" rel="noopener" href="https://square.link/u/XBw09o7j?src=sheet">Pro — Annual</a>
           </div>
         </article>
 
@@ -111,54 +145,52 @@
         <article class="card">
           <div class="plan">Elite</div>
           <div class="price">Monthly / Annual</div>
-          <ul class="muted" style="padding-left:1rem">
+          <ul class="muted bullets">
             <li>Everything in Pro</li>
             <li>1:1 coaching</li>
             <li>Priority reviews</li>
           </ul>
           <div class="stack">
-            <a class="btn primary" target="_blank" rel="noopener"
-               href="https://square.link/u/U2cdtt7u?src=sheet">
-              Elite — Monthly
-            </a>
-            <a class="btn" target="_blank" rel="noopener"
-               href="https://square.link/u/d4DoJI3Q?src=sheet">
-              Elite — Annual
-            </a>
+            <a class="btn primary" target="_blank" rel="noopener" href="https://square.link/u/U2cdtt7u?src=sheet">Elite — Monthly</a>
+            <a class="btn" target="_blank" rel="noopener" href="https://square.link/u/d4DoJI3Q?src=sheet">Elite — Annual</a>
           </div>
         </article>
-
       </div>
+
+      <p class="muted tiny" style="margin-top:.75rem">Prefer Cash App? <strong>$Color-Theory-Collective</strong></p>
     </div>
   </section>
 
-  <!-- ===== FAQ (unchanged placeholder) ===== -->
-  <section id="faq" class="section">
+  <!-- FAQ -->
+  <section id="faq" class="section alt">
     <div class="container">
       <h2>FAQ</h2>
-      <details>
-        <summary>What do I need to start?</summary>
-        <p>A device and your curiosity. We’ll guide the rest.</p>
-      </details>
-      <details>
-        <summary>Can I upgrade later?</summary>
-        <p>Yes—your membership can be upgraded anytime.</p>
-      </details>
+      <details><summary>What do I need to start?</summary><p>A device and your curiosity. We’ll guide the rest.</p></details>
+      <details><summary>Can I upgrade later?</summary><p>Absolutely—you can upgrade anytime and keep your progress.</p></details>
+      <details><summary>Refunds?</summary><p>Drop-in passes are final; memberships can be canceled any time for the next cycle.</p></details>
     </div>
   </section>
 
-  <!-- ===== Contact / Footer ===== -->
-  <footer id="contact" class="section footer">
+  <!-- Contact (Netlify Form) -->
+  <section id="contact" class="section">
     <div class="container">
-      <h3>Support the work</h3>
-      <p class="muted">Cash App: <strong>$Color-Theory-Collective</strong></p>
-      <p class="muted">Questions? <a href="mailto:hello@color-theory-collective.org">hello@color-theory-collective.org</a></p>
-      <p class="tiny muted">© <span id="year"></span> Color Theory Collective</p>
+      <h2>Contact</h2>
+      <form name="contact" method="POST" data-netlify="true" class="form">
+        <input type="hidden" name="form-name" value="contact">
+        <label> Name <input name="name" required></label>
+        <label> Email <input type="email" name="email" required></label>
+        <label> Message <textarea name="message" rows="4" required></textarea></label>
+        <button class="btn primary" type="submit">Send</button>
+      </form>
+      <p class="muted tiny">Or email <a href="mailto:hello@color-theory-collective.org">hello@color-theory-collective.org</a></p>
     </div>
-    <script>
-      // tiny helper to keep year fresh
-      document.getElementById('year').textContent = new Date().getFullYear();
-    </script>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container">
+      <p class="muted tiny">© <span id="year"></span> Color Theory Collective</p>
+    </div>
   </footer>
 
 </body>
