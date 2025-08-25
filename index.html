@@ -236,5 +236,157 @@
     </div>
   </footer>
 
-</body>
+<!-- CTC one-file bundle: features + assistant (keeps your theme intact) -->
+<script>
+(function(){
+  // ===== Utilities =====
+  function ready(fn){ if(document.readyState!=='loading') fn(); else document.addEventListener('DOMContentLoaded', fn); }
+  function el(t,attrs={},html=''){ const e=document.createElement(t); for(const k in attrs){ e.setAttribute(k,attrs[k]); } if(html) e.innerHTML=html; return e; }
+
+  // ===== Ensure mount point =====
+  function ensureRoot(){
+    let root = document.getElementById('ctc-root');
+    if(!root){ root = document.createElement('div'); root.id = 'ctc-root'; document.body.appendChild(root); }
+    return root;
+  }
+
+  // ===== Assistant (UI + Live) =====
+  function savePass(p){ localStorage.setItem('ctc_member_pass', p); }
+  function saveTier(t){ localStorage.setItem('ctc_member_tier', t); }
+  function getPass(){ return localStorage.getItem('ctc_member_pass') || ''; }
+  function getTier(){ return localStorage.getItem('ctc_member_tier') || 'starter'; }
+
+  async function liveAsk(messages, mode){
+    const pass = getPass();
+    if(!pass) throw new Error('Enter your Member Pass first.');
+    const r = await fetch('/.netlify/functions/assistant', {
+      method:'POST',
+      headers:{'Content-Type':'application/json','Authorization':'Bearer '+pass},
+      body: JSON.stringify({ messages, mode: mode||'pro', tier: getTier() })
+    });
+    const txt = await r.text();
+    if(!r.ok) throw new Error(txt);
+    const data = JSON.parse(txt);
+    return data.reply || '…';
+  }
+
+  function mountAssistant(){
+    if(document.getElementById('ctcAssistantBtn')) return; // already added
+
+    const fab = el('div', {}, `
+      <button class="btn" id="ctcAssistantBtn">Assistant</button>
+      <button class="btn" id="ctcEmergencyBtn" style="background:#d63636;border-color:#d63636">Emergency</button>
+    `);
+    fab.style.cssText = 'position:fixed;right:18px;bottom:18px;z-index:1001;display:flex;gap:10px';
+    document.body.appendChild(fab);
+
+    const modal = el('div', { id:'ctcAssistantModal' }, `
+      <div style="width:min(820px,96vw);max-height:92vh;overflow:auto;background:#fff;border:2px solid #6f42c1;border-radius:14px;padding:18px">
+        <h3 style="margin-top:0">Color Assistant (Live)</h3>
+        <div style="border:2px solid #6f42c1;padding:10px;border-radius:12px">Enter your Member Pass to enable live replies.</div>
+        <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:8px">
+          <input id="ctcMemberPass" placeholder="Paste Member Pass">
+          <select id="ctcMemberTier"><option>starter</option><option selected>pro</option><option>elite</option></select>
+          <button id="ctcSavePass">Save</button>
+        </div>
+        <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:8px">
+          <input id="ctcQAInput" placeholder="Ask about lifts, timing, tone, aftercare, vivids…">
+          <button id="ctcQAAsk">Ask (Live)</button>
+        </div>
+        <div id="ctcQAOut" style="margin-top:10px;min-height:80px;border:2px solid #6f42c1;border-radius:12px;padding:12px"></div>
+        <div style="text-align:right;margin-top:10px"><button id="ctcCloseAssistant">Close</button></div>
+      </div>
+    `);
+    modal.style.cssText = 'display:none;position:fixed;inset:0;background:rgba(0,0,0,.4);z-index:1002;align-items:center;justify-content:center';
+    document.body.appendChild(modal);
+
+    document.getElementById('ctcAssistantBtn').addEventListener('click', ()=> modal.style.display='flex');
+    document.getElementById('ctcCloseAssistant').addEventListener('click', ()=> modal.style.display='none');
+    modal.addEventListener('click', e=>{ if(e.target===modal) modal.style.display='none'; });
+    document.getElementById('ctcEmergencyBtn').addEventListener('click', ()=> alert('Emergency dispatch: we’ll suggest same-day vendors for your region.'));
+
+    document.getElementById('ctcSavePass').addEventListener('click', ()=>{
+      const pass = (document.getElementById('ctcMemberPass').value||'').trim();
+      const tier = (document.getElementById('ctcMemberTier').value||'starter');
+      if(!pass) return alert('Enter your Member Pass');
+      savePass(pass); saveTier(tier); alert('Member Pass saved.');
+    });
+    document.getElementById('ctcQAAsk').addEventListener('click', async ()=>{
+      const q = (document.getElementById('ctcQAInput').value||'').trim();
+      const out = document.getElementById('ctcQAOut');
+      if(!q) return;
+      out.textContent = 'Thinking…';
+      try{
+        const reply = await liveAsk([{role:'user', content:q}], 'pro');
+        out.textContent = reply;
+      }catch(e){ out.textContent = 'Assistant error: '+e.message; }
+    });
+  }
+
+  // ===== Minimal Feature Pages (hash routes) =====
+  function mountPages(){
+    const root = ensureRoot();
+
+    const css = `.ctc-box{border:2px solid #6f42c1;border-radius:12px;padding:12px;background:#fff;margin:10px 0}
+    .ctc-row{display:flex;gap:10px;flex-wrap:wrap}
+    .ctc-btn{cursor:pointer;border:2px solid #6f42c1;background:#6f42c1;color:#fff;font-weight:800;padding:10px 14px;border-radius:10px;text-decoration:none}
+    .ctc-btn.alt{background:#fff;color:#6f42c1}
+    .ctc-note{border:2px solid #6f42c1;border-radius:10px;padding:10px;background:#fff}`;
+    const style = document.createElement('style'); style.textContent = css; document.head.appendChild(style);
+
+    function page(title){ const box=el('div',{class:'ctc-box'}); box.appendChild(el('h2',{},title)); return box; }
+
+    const pages = {
+      home(){
+        const b=page('AI Color Lab — Quick Access');
+        const r=el('div',{class:'ctc-row'});
+        r.append(el('a',{href:'#pros',class:'ctc-btn'},'Enter Pro Lab'), el('a',{href:'#consumers',class:'ctc-btn alt'},'DIY Assistant'));
+        b.append(r, el('div',{class:'ctc-note'},'Cash App: <strong>$Color-Theory-Collective</strong> • Square buttons in Join section.'));
+        return b;
+      },
+      pros(){
+        const b=page('Pro Color Formulation Lab');
+        b.appendChild(el('div',{class:'ctc-note'},'Pro tools mounting here (mix, tone line, swatch, developer awareness).'));
+        return b;
+      },
+      consumers(){
+        const b=page('DIY Color Assistant');
+        b.appendChild(el('div',{class:'ctc-note'},'Use the Assistant button (bottom-right) for live Q&A.'));
+        return b;
+      },
+      education(){
+        const b=page('Education');
+        b.appendChild(el('div',{class:'ctc-note'},'Color wheel & micro-quiz will mount here.'));
+        return b;
+      },
+      lab(){
+        const b=page('International Dropship ETA');
+        b.appendChild(el('div',{class:'ctc-note'},'ETA helper (editable supplier matrix).'));
+        return b;
+      },
+      cart(){
+        const b=page('Membership Tiers');
+        b.appendChild(el('div',{class:'ctc-note'},'Use your Square & Cash App buttons already on the page.'));
+        return b;
+      }
+    };
+
+    function render(){
+      const route = (location.hash||'#home').slice(1);
+      root.innerHTML = '';
+      root.appendChild((pages[route]||pages.home)());
+    }
+    window.addEventListener('hashchange', render);
+    render();
+  }
+
+  // ===== Start =====
+  ready(function(){
+    ensureRoot();
+    mountPages();
+    mountAssistant();
+  });
+})();
+</script>
+<!-- /CTC one-file bundle --></body>
 </html>
