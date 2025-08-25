@@ -26,6 +26,7 @@
       <a class="brand" href="#top">Color Theory Collective</a>
       <nav class="nav">
         <a href="#lab">Lab</a>
+        <a href="#sessions">Book</a>
         <a href="#gallery">Gallery</a>
         <a href="#pricing">Join</a>
         <a href="#faq">FAQ</a>
@@ -68,8 +69,35 @@
     </div>
   </section>
 
+  <!-- Sessions / Booking -->
+  <section id="sessions" class="section alt">
+    <div class="container">
+      <h2>Book a Session</h2>
+      <p class="muted">Want 1:1 guidance or a quick jam in the Lab? Grab a time that works for you.</p>
+
+      <div class="cards two">
+        <article class="card">
+          <h3>Quick Jam (30m)</h3>
+          <p class="muted">Target a specific palette, question, or stuck point.</p>
+          <a class="btn primary" target="_blank" rel="noopener"
+             href="https://calendly.com/your-handle/30min">Book 30 minutes</a>
+        </article>
+
+        <article class="card">
+          <h3>Deep Dive (60m)</h3>
+          <p class="muted">Work through a full set, critique, or color workflow.</p>
+          <a class="btn primary" target="_blank" rel="noopener"
+             href="https://calendly.com/your-handle/60min">Book 60 minutes</a>
+        </article>
+      </div>
+
+      <!-- If/when you want to embed Calendly directly, swap the two buttons above
+           for an inline embed like an <iframe>. The buttons are simpler & mobile-friendly. -->
+    </div>
+  </section>
+
   <!-- Gallery -->
-  <section id="gallery" class="section alt">
+  <section id="gallery" class="section">
     <div class="container">
       <h2>Recent work</h2>
       <div class="gallery">
@@ -94,7 +122,7 @@
     </div>
   </section>
 
-  <!-- Pricing / Join (with your Square links + Cash App name baked in) -->
+  <!-- Pricing / Join -->
   <section id="pricing" class="section" aria-label="Membership">
     <div class="container">
       <h2>Join the Collective</h2>
@@ -171,11 +199,11 @@
     </div>
   </section>
 
-  <!-- Contact (Netlify Form) -->
+  <!-- Contact (Netlify Form → /success) -->
   <section id="contact" class="section">
     <div class="container">
       <h2>Contact</h2>
-      <form name="contact" method="POST" data-netlify="true" class="form">
+      <form name="contact" method="POST" data-netlify="true" action="/success" class="form">
         <input type="hidden" name="form-name" value="contact">
         <label> Name <input name="name" required></label>
         <label> Email <input type="email" name="email" required></label>
