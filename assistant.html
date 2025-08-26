@@ -1,0 +1,94 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>CTC Assistant Probe</title>
+  <style>
+    body{font-family:system-ui,-apple-system,Segoe UI,Roboto,Inter,Arial,sans-serif;margin:0;padding:24px;background:#f7f7f8;color:#111}
+    .wrap{max-width:900px;margin:0 auto}
+    h1{margin:0 0 6px}
+    .muted{color:#555}
+    .card{background:#fff;border:2px solid #6f42c1;border-radius:14px;padding:16px;margin:16px 0}
+    .row{display:flex;gap:10px;flex-wrap:wrap}
+    input,select,button,textarea{font-size:16px;padding:10px;border-radius:10px;border:2px solid #6f42c1}
+    button{background:#6f42c1;color:#fff;font-weight:700;cursor:pointer}
+    .alt{background:#fff;color:#6f42c1}
+    #out{min-height:120px;white-space:pre-wrap}
+    .tiny{font-size:12px;color:#666}
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <h1>Color Theory Collective — Assistant</h1>
+    <p class="muted">Isolated test page so your main site stays untouched.</p>
+
+    <div class="card">
+      <h2>Member Pass</h2>
+      <div class="row">
+        <input id="pass" placeholder="Paste Member Pass (e.g., pro-222)" style="min-width:260px">
+        <select id="tier">
+          <option>starter</option>
+          <option selected>pro</option>
+          <option>elite</option>
+        </select>
+        <button id="save">Save</button>
+        <button id="clear" class="alt">Clear</button>
+      </div>
+      <p class="tiny" id="passStatus"></p>
+    </div>
+
+    <div class="card">
+      <h2>Ask live</h2>
+      <div class="row">
+        <input id="q" placeholder="Ask about lifts, timing, tone, aftercare, vivids…" style="flex:1;min-width:260px">
+        <button id="ask">Ask</button>
+      </div>
+      <div id="out" class="card" style="margin:12px 0 0 0"></div>
+    </div>
+
+    <p class="tiny">Function URL it will call: <code>/.netlify/functions/assistant</code></p>
+  </div>
+
+  <script>
+    const $ = id => document.getElementById(id);
+    const getPass = () => localStorage.getItem('ctc_member_pass') || '';
+    const getTier = () => localStorage.getItem('ctc_member_tier') || 'starter';
+    const setPass = (p) => localStorage.setItem('ctc_member_pass', p);
+    const setTier = (t) => localStorage.setItem('ctc_member_tier', t);
+
+    function renderStatus(){
+      const p = getPass(); const t = getTier();
+      $('passStatus').textContent = p ? ('Saved pass • tier: '+t) : 'No pass saved';
+    }
+
+    $('save').onclick = () => {
+      const p = ($('pass').value||'').trim();
+      const t = $('tier').value||'starter';
+      if(!p) return alert('Enter a pass (e.g., pro-222)');
+      setPass(p); setTier(t); renderStatus(); alert('Saved!');
+    };
+    $('clear').onclick = () => { localStorage.removeItem('ctc_member_pass'); localStorage.removeItem('ctc_member_tier'); renderStatus(); };
+
+    $('ask').onclick = async () => {
+      const q = ($('q').value||'').trim();
+      const out = $('out');
+      if(!q) return;
+      out.textContent = 'Thinking…';
+      try{
+        const r = await fetch('/.netlify/functions/assistant', {
+          method: 'POST',
+          headers: { 'Content-Type':'application/json', 'Authorization':'Bearer '+getPass() },
+          body: JSON.stringify({ messages:[{role:'user',content:q}], tier: getTier() })
+        });
+        const txt = await r.text();
+        if(!r.ok){ out.textContent = 'Error: '+txt; return; }
+        const data = JSON.parse(txt);
+        out.textContent = data.reply || '…';
+      }catch(e){ out.textContent = 'Error: '+e.message; }
+    };
+
+    renderStatus();
+  </script>
+</body>
+</html>
