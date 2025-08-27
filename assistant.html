@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CTC Assistant Test</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    body { font-family: Arial, sans-serif; padding: 20px; }
+    .card { border: 1px solid #ccc; border-radius: 8px; padding: 16px; margin: 12px 0; }
+    input, button { padding: 8px; margin-top: 8px; }
+    #out { white-space: pre-wrap; margin-top: 12px; }
+  </style>
+</head>
+<body>
+  <h1>Color Theory Collective Assistant</h1>
+
+  <div class="card">
+    <h3>Enter Member Pass</h3>
+    <input id="pass" placeholder="e.g. elite-333">
+    <button id="save">Save</button>
+    <button id="clear">Clear</button>
+    <div id="passStatus"></div>
+  </div>
+
+  <div class="card">
+    <h3>Ask Live</h3>
+    <input id="q" placeholder="Type your question...">
+    <button id="ask">Ask</button>
+    <div id="out"></div>
+  </div>
+
+  <script>
+    const $ = id => document.getElementById(id);
+
+    const getPass = () => localStorage.getItem("ctc_member_pass") || "";
+    const setPass = p => localStorage.setItem("ctc_member_pass", p);
+    const clearPass = () => localStorage.removeItem("ctc_member_pass");
+
+    function renderStatus() {
+      const p = getPass();
+      $("passStatus").textContent = p ? `Saved pass: ${p}` : "No pass saved";
+    }
+
+    $("save").onclick = () => { setPass($("pass").value); renderStatus(); };
+    $("clear").onclick = () => { clearPass(); renderStatus(); };
+    renderStatus();
+
+    $("ask").onclick = async () => {
+      $("out").textContent = "Loading...";
+      const q = $("q").value;
+      const pass = getPass();
+
+      const res = await fetch("/.netlify/functions/assistant", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${pass}`
+        },
+        body: JSON.stringify({ q })
+      });
+
+      const data = await res.json();
+      $("out").textContent = data.answer || JSON.stringify(data, null, 2);
+    };
+  </script>
+</body>
+</html>
