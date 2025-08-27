@@ -47,3 +47,31 @@
   }
   update();
 })();
+// --- Send message from chat bubble to Netlify function ---
+async function sendToAssistant(message) {
+  try {
+    const response = await fetch("/.netlify/functions/assistant", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ message })
+    });
+
+    const data = await response.json();
+
+    if (data.error) {
+      throw new Error(data.error);
+    }
+
+    // Update your chat bubble with reply
+    const bubble = document.getElementById("chat-output");
+    if (bubble) {
+      bubble.textContent += "\nAssistant: " + data.reply;
+    }
+
+    return data.reply;
+
+  } catch (err) {
+    console.error("Assistant error:", err);
+    return "⚠️ Something went wrong.";
+  }
+}
