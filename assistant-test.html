@@ -1,0 +1,27 @@
+const FUNCTION_URL = '/.netlify/functions/assistant';
+
+window.CTCAssistant = {
+  async ask(prompt, tier = 'starter') {
+    const pass = localStorage.getItem('ctc_member_pass') || '';
+
+    const res = await fetch(FUNCTION_URL, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${pass}`
+      },
+      body: JSON.stringify({ prompt, tier })
+    });
+
+    if (!res.ok) {
+      const text = await res.text().catch(() => '');
+      throw new Error(text || `HTTP ${res.status}`);
+    }
+    return res.json();
+  },
+
+  mount({ functionUrl = FUNCTION_URL } = {}) {
+    console.log("Color Assistant mounted, using:", functionUrl);
+    // bubble initialization logic is already wired from index.html
+  }
+};
