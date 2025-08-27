@@ -1,77 +1,107 @@
 // netlify/functions/assistant.js
-export async function handler(event, context) {
+export async function handler(event) {
+  // ---- CORS (keeps your styles/pages untouched) ----
   const cors = {
     "Access-Control-Allow-Origin": "*",
     "Access-Control-Allow-Headers": "Content-Type, Authorization",
-    "Access-Control-Allow-Methods": "POST, OPTIONS"
+    "Access-Control-Allow-Methods": "OPTIONS, POST",
+  };
+  if (event.httpMethod === "OPTIONS") {
+    return { statusCode: 200, headers: cors, body: "" };
+  }
+  if (event.httpMethod !== "POST") {
+    return { statusCode: 405, headers: cors, body: "Method Not Allowed" };
+  }
+
+  // ---- Member pass (from Authorization: Bearer <pass>) ----
+  const auth =
+    event.headers["authorization"] ||
+    event.headers["Authorization"] ||
+    "";
+  const token = auth.startsWith("Bearer ") ? auth.slice(7) : "";
+
+  let passes = [];
+  try {
+    // Must be a JSON array in Netlify env, e.g.
+    // ["starter-111","pro-222","elite-333","elite-444"]
+    passes = JSON.parse(process.env.MEMBER_PASSES || "[]");
+  } catch { passes = []; }
+
+  const ok = Array.isArray(passes) && passes.includes(token);
+  if (!ok) {
+    return {
+      statusCode: 401,
+      headers: cors,
+      body: JSON.stringify({ error: "Invalid or inactive pass" }),
+    };
+  }
+
+  // ---- Parse question ----
+  let question = "";
+  try {
+    const { q } = JSON.parse(event.body || "{}");
+    question = (q || "").toString().slice(0, 2000);
+  } catch { /* noop */ }
+
+  if (!question) {
+    return {
+      statusCode: 400,
+      headers: cors,
+      body: JSON.stringify({ error: "Missing question" }),
+    };
+  }
+
+  // ---- Call OpenAI (uses your env OPENAI_API_KEY) ----
+  const apiKey = process.env.OPENAI_API_KEY || process.env.OPENAI_APIKEY || "";
+  if (!apiKey) {
+    return {
+      statusCode: 500,
+      headers: cors,
+      body: JSON.stringify({ error: "OPENAI_API_KEY not configured" }),
+    };
+  }
+
+  // Simple, fast model for Q&A
+  const payload = {
+    model: "gpt-4o-mini",
+    messages: [
+      { role: "system", content: "You are Color Theory Collective’s hair color assistant. Be precise, friendly, and concise. Never give unsafe chemical advice." },
+      { role: "user", content: question }
+    ],
+    temperature: 0.4,
   };
 
   try {
-    if (event.httpMethod === 'OPTIONS') {
-      return { statusCode: 200, headers: cors, body: 'ok' };
-    }
-    if (event.httpMethod !== 'POST') {
-      return { statusCode: 405, headers: cors, body: 'Method Not Allowed' };
-    }
-
-    const auth = event.headers['authorization'] || event.headers['Authorization'] || '';
-    const token = auth.startsWith('Bearer ') ? auth.slice(7) : '';
-    if (!token) {
-      return { statusCode: 401, headers: cors, body: 'Missing Member Pass (Authorization: Bearer <pass>)' };
-    }
-
-    let passes = [];
-    try { passes = JSON.parse(process.env.MEMBER_PASSES || '[]'); } catch {}
-    const found = passes.find(p => p.pass === token);
-    if (!found) {
-      return { statusCode: 402, headers: cors, body: 'Invalid or inactive pass' };
-    }
-
-    const body = JSON.parse(event.body || '{}');
-    const messages = body.messages || [];
-    const mode = body.mode || 'pro';
-    const tier = body.tier || found.tier || 'starter';
-
-    const persona =
-`You are CTC—Color Theory Collective’s color educator & lab tech.
-Audience: salon pros and DIY consumers. Be warm, concise, and confidence-building.
-Priorities: hair integrity, correct formulation, clean application, budget & ETA, aftercare.
-Always consider: current level, % gray, porosity, skin/eye undertone, color history, target tone, maintenance window.
-Teach while solving (why this developer, why this tone). Use color wheel complements. Offer 2–3 safe paths (Pro vs DIY).
-If user is overwhelmed, simplify to a one-page checklist. Avoid medical diagnoses.
-Mode: ${mode}. Tier: ${tier}.`;
-
-    const apiKey = process.env.OPENAI_API_KEY;
-    if (!apiKey) {
-      return { statusCode: 500, headers: cors, body: 'Server missing OPENAI_API_KEY' };
-    }
-
-    const model = (tier === 'elite' || tier === 'pro') ? 'gpt-5.1' : 'gpt-5.1-mini';
-
-    const r = await fetch('https://api.openai.com/v1/chat/completions', {
-      method:'POST',
-      headers:{'Content-Type':'application/json','Authorization':`Bearer ${apiKey}`},
-      body: JSON.stringify({
-        model,
-        messages: [{role:'system', content: persona}, ...messages]
-      })
+    const r = await fetch("https://api.openai.com/v1/chat/completions", {
+      method: "POST",
+      headers: {
+        "Authorization": `Bearer ${apiKey}`,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(payload),
     });
 
+    const data = await r.json();
+
     if (!r.ok) {
-      const txt = await r.text();
-      return { statusCode: 502, headers: cors, body: 'Upstream OpenAI error: ' + txt };
+      return {
+        statusCode: r.status,
+        headers: cors,
+        body: JSON.stringify({ error: data?.error?.message || "Upstream error" }),
+      };
     }
 
-    const data = await r.json();
-    const reply = data?.choices?.[0]?.message?.content || '…';
-
+    const answer = data?.choices?.[0]?.message?.content?.trim() || "I couldn’t form an answer.";
     return {
       statusCode: 200,
-      headers: { ...cors, "Content-Type":"application/json" },
-      body: JSON.stringify({ reply })
+      headers: { ...cors, "Content-Type": "application/json" },
+      body: JSON.stringify({ answer }),
     };
-
   } catch (e) {
-    return { statusCode: 500, headers: cors, body: 'Function crash: ' + String(e) };
+    return {
+      statusCode: 500,
+      headers: cors,
+      body: JSON.stringify({ error: "Assistant crashed." }),
+    };
   }
 }
