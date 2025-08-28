@@ -1,0 +1,38 @@
+/* Color Theory Collective – namespaced minimal styles. No global overrides. */
+:root {
+  --ctc-bg: #0b0b14;
+  --ctc-card: #121223;
+  --ctc-accent: #7b5cff;
+  --ctc-accent-2: #c057ff;
+  --ctc-text: #f8f8ff;
+  --ctc-muted: #b9b9d6;
+  --ctc-surface: rgba(255,255,255,0.06);
+  --ctc-green: #2dd4bf;
+}
+body { font-family: system-ui, -apple-system, Segoe UI, Roboto, sans-serif; background: var(--ctc-bg); color: var(--ctc-text); margin:0; }
+.ctc-header { position:sticky; top:0; z-index:5; display:flex; align-items:center; justify-content:space-between; padding:12px 16px; background:linear-gradient(90deg, rgba(10,10,20,.9), rgba(30,20,50,.7)); backdrop-filter: blur(6px); border-bottom:1px solid rgba(255,255,255,0.08); }
+.ctc-header h1 { font-size:18px; margin:0; letter-spacing:.5px; }
+.ctc-nav a { color: var(--ctc-muted); margin-left:14px; text-decoration:none; font-size:14px; }
+.ctc-nav a:hover { color: var(--ctc-text); }
+.ctc-section { padding:28px 16px; max-width:1000px; margin:0 auto; }
+.ctc-section h2 { margin:8px 0 12px; }
+.ctc-btn { background: linear-gradient(135deg, var(--ctc-accent), var(--ctc-accent-2)); color:white; border:0; padding:10px 14px; border-radius:12px; cursor:pointer; text-decoration:none; display:inline-block; margin:6px 8px 6px 0; font-weight:600; }
+.ctc-btn.alt { background: var(--ctc-green); color:#06251f; }
+.ctc-lab-grid { display:grid; grid-template-columns:repeat(auto-fit, minmax(180px, 1fr)); gap:12px; background:var(--ctc-surface); padding:12px; border-radius:12px; }
+.ctc-upload, .ctc-zones, .ctc-order, .ctc-instructor { margin-top:18px; background:var(--ctc-surface); padding:12px; border-radius:12px; }
+#ctc-video { width: 320px; height: 240px; background:#000; border-radius:10px; display:block; margin-top:6px; }
+#ctc-canvas { display:block; margin-top:8px; border-radius:10px; }
+.ctc-kit-grid { display:flex; flex-wrap:wrap; gap:8px; margin-bottom:10px; }
+.ctc-ship-actions { display:flex; gap:10px; flex-wrap:wrap; }
+.ctc-fab { position: fixed; bottom: 18px; right: 18px; z-index: 20; display:flex; align-items:center; gap:10px; background:#0f1221; color:#fff; border-radius:60px; padding:8px 12px; box-shadow:0 10px 30px rgba(0,0,0,.35), inset 0 0 0 1px rgba(255,255,255,.08); }
+.ctc-fab .ctc-pill { font-size:14px; }
+.ctc-fab button { background:#1c1f36; color:#fff; border:1px solid rgba(255,255,255,.12); padding:8px 10px; border-radius:30px; cursor:pointer; }
+.ctc-panel { position:fixed; right:16px; bottom:86px; width: min(420px, 92vw); max-height:62vh; background:#0e1020; border:1px solid rgba(255,255,255,.1); border-radius:16px; overflow:hidden; display:none; flex-direction:column; z-index:24; box-shadow:0 24px 60px rgba(0,0,0,.5); }
+.ctc-panel-header { display:flex; align-items:center; justify-content:space-between; padding:10px 12px; background:#12142a; }
+.ctc-panel-body { padding:12px; overflow:auto; }
+.ctc-row { display:flex; gap:8px; margin:6px 0; }
+.ctc-row input[type=text], .ctc-row input[type=number], .ctc-row textarea, .ctc-row select { flex:1; padding:8px; border-radius:8px; border:1px solid rgba(255,255,255,.1); background:#0c0e1c; color:#fff; }
+.ctc-chat { background:#0c0e1c; border-radius:12px; padding:10px; height:220px; overflow:auto; border:1px solid rgba(255,255,255,.1); }
+.ctc-chat p { margin:.5em 0; }
+.ctc-badge { font-size:12px; color:var(--ctc-green); margin-left:6px; }
+.ctc-small { font-size:12px; color:var(--ctc-muted); }
